@@ -20,7 +20,7 @@
 1. 安装依赖
 
 ```sh
-yarn add webpack-mkcert-getter
+yarn add webpack-mkcert
 ```
 
 2. 配置 webpack
