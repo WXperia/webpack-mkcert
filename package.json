@@ -1,6 +1,6 @@
 {
   "name": "webpack-mkcert",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Provide certificates for webpack https dev service",
   "repository": {
     "type": "git",
