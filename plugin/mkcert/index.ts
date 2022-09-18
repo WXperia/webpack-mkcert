@@ -2,7 +2,7 @@ import fs from 'fs'
 import process from 'process'
 
 import pc from 'picocolors'
-import { Logger } from 'vite'
+// import { Logger } from 'vite'
 
 import { debug } from '../lib/logger'
 import {
@@ -22,7 +22,7 @@ import { BaseSource, GithubSource, CodingSource } from './source'
 import VersionManger from './version'
 
 export type SourceType = 'github' | 'coding' | BaseSource
-
+export type Logger = typeof console
 export type MkcertOptions = {
   /**
    * Whether to force generate
