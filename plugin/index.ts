@@ -1,6 +1,3 @@
-// import { createLogger, Plugin } from 'vite'
-
-import { PLUGIN_NAME } from './lib/constant'
 import { getDefaultHosts } from './lib/util'
 import Mkcert, { MkcertOptions } from './mkcert'
 

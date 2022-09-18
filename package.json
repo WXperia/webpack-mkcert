@@ -1,10 +1,10 @@
 {
   "name": "webpack-mkcert",
-  "version": "1.9.0",
-  "description": "Provide certificates for vite's https dev service",
+  "version": "1.0.0",
+  "description": "Provide certificates for webpack https dev service",
   "repository": {
     "type": "git",
-    "url": "https://github.com/liuweiGL/vite-plugin-mkcert.git"
+    "url": "https://github.com/WXperia/webpack-mkcert.git"
   },
   "keywords": [
     "vite-plugin",
@@ -12,12 +12,12 @@
     "https",
     "mkcert"
   ],
-  "author": "liuweigl",
+  "author": "Wxperia",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/liuweiGL/vite-plugin-mkcert/issues"
+    "url": "https://github.com/WXperia/webpack-mkcert/issues"
   },
-  "homepage": "https://github.com/liuweiGL/vite-plugin-mkcert#readme",
+  "homepage": "https://github.com/WXperia/webpack-mkcert#readme",
   "engines": {
     "node": ">=v16.0.0"
   },

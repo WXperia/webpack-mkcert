@@ -1,95 +1,106 @@
-# [中文文档](README-zh_CN.md)
+# webpack-mkcert-getter
 
-# vite-plugin-mkcert
+使用 mkcert 为 webpack https 开发服务提供证书支持。
 
-Use mkcert to provide certificate support for vite https development services.
-
-## When should I use this plugin
-
-1. When you want to use `http/2` to solve the concurrency limit of vite http dev server requests, you find that the browser cache is invalid [#2725](https://github.com/vitejs/vite/issues/2725).
-2. I have obsessive-compulsive disorder, and I hope that the browser will not show annoying https certificate errors.
-
-## Effect
+## 效果
 
 <details>
-   <summary>View</summary>
-   
-   ![localhost](docs/assets/screenshot/localhost.png)
+  <summary>查看</summary>
+  
+  ![localhost](docs/assets/screenshot/localhost.png)
 
-   ![127.0.0.1](docs/assets/screenshot/127.0.0.1.png)
+![127.0.0.1](docs/assets/screenshot/127.0.0.1.png)
 
-   ![localhost](docs/assets/screenshot/localip.png)
+![localhost](docs/assets/screenshot/localip.png)
+
 </details>
 
-## Quick start
+## 快速开始
 
-1. Installation dependencies
+1. 安装依赖
 
 ```sh
-yarn add vite-plugin-mkcert -D
+yarn add webpack-mkcert-getter
 ```
 
-2. Configure vite
+2. 配置 webpack
 
 ```ts
-import {defineConfig} from'vite'
-import mkcert from'vite-plugin-mkcert'
+const { defineConfig } = require('@vue/cli-service')
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  server: {
-    https: true
-  },
-  plugins: [mkcert()]
+const webpackPlugin = require('webpack-mkcert')
+
+module.exports = defineConfig(async () => {
+  const https = await webpackPlugin.default({
+    source: 'coding',
+    hosts: ['localhost', '127.0.0.1']
+  })
+
+  return {
+    transpileDependencies: true,
+    devServer: {
+      server: {
+        type: 'https',
+        options: {
+          host: 'localhost',
+          ...https,
+        },
+      }
+    },
+  }
 })
+
 ```
 
-## Parameters
+## 参数
+
 ### force
 
-Whether to force generate.
+是否强制重新生成证书。
+
 ### autoUpgrade
 
-Whether to automatically upgrade `mkcert`.
+是否自动升级 `mkcert`。
 
 ### source
 
-Specify the download source of `mkcert`, domestic users can set it to `coding` to download from the coding.net mirror, or provide a custom [BaseSource](plugin/mkcert/Source.ts).
+指定 `mkcert` 的下载源，国内用户可以设置成 `coding` 从 coding.net 镜像下载，也可以提供一个自定义的 [BaseSource](plugin/mkcert/Source.ts)。
 
 ### mkcertPath
 
-If the network is restricted, you can specify a local `mkcert` file instead of downloading from the network.
+如果网络受限的话，可以指定一个本地的 `mkcert` 文件来代替网络下载。
 
 ### hosts
 
-Custom hosts, default value is `localhost` + `local ip addrs`.
+自定义域名，默认使用 `localhost` + 本地 ip 列表。
 
-## Mobile devices
+## 移动端设备使用
 
-For the certificates to be trusted on mobile devices, you will have to install the root CA. It's the `rootCA.pem` file in the folder printed by `mkcert -CAROOT`.
+为了使证书在移动设备上被信任，你必须安装根证书 `rootCA.pem` 文件。可以使用 `mkcert -CAROOT` 命令打印它所在的文件夹。
 
-On iOS, you can either use AirDrop, email the CA to yourself, or serve it from an HTTP server. After opening it, you need to [install the profile in Settings > Profile Downloaded](https://github.com/FiloSottile/mkcert/issues/233#issuecomment-690110809) and then [enable full trust in it](https://support.apple.com/en-nz/HT204477).
+在 iOS 上，你可以使用 AirDrop 隔空投送，或者用 CA 用电子邮件发给自己，或者从 HTTP 服务器上提供。打开后，你需要[在设置>已下载描述文件中安装配置文件](https://github.com/FiloSottile/mkcert/issues/233#issuecomment-690110809)，然后[对其启用完全信任](https://support.apple.com/zh-cn/HT204477)。
 
-For Android, you will have to install the CA and then enable user roots in the development build of your app. See [this StackOverflow answer](https://stackoverflow.com/a/22040887/749014).
+对于安卓系统，安装根证书 CA ，然后在你的应用程序的开发构建中启用用户根证书。见 [StackOverflow 的答案](https://stackoverflow.com/a/22040887/749014)。
 
-## Display the debugging information of the plug-in
+## 显示插件的调试信息
 
-Set the environment variable `DEBUG`=`vite:plugin:mkcert`
+设置环境变量 `DEBUG`=`vite:plugin:mkcert`
 
-## CHANGELOG
+## 更新日志
 
 [CHANGELOG](CHANGELOG.md)
 
-## Principle
+## 原理
 
-Use [mkcert](https://github.com/FiloSottile/mkcert) to install the local `CA` certificate and generate it for [server.https](https://vitejs.bootcss.com/config/#server-https) Server certificate.
+使用 [mkcert](https://github.com/FiloSottile/mkcert) 安装本地 `CA` 证书，并为 [server.https](https://vitejs.bootcss.com/config/#server-https) 生成服务端证书。
 
-## Friendly reminder
+## 友情提示
 
-1. `mkcert` save directory: [PLUGIN_DATA_DIR](plugin/lib/constant.ts)
-2. Uninstall the `CA` certificate: `mkcert -uninstall`
+1. `mkcert` 保存目录：[PLUGIN_DATA_DIR](plugin/lib/constant.ts)
+2. 卸载 `CA` 证书：`mkcert -uninstall`
 
-## Thanks
+## 感谢
 
 - [mkcert](https://github.com/FiloSottile/mkcert)
 - [daquinoaldo/https-localhost](https://github.com/daquinoaldo/https-localhost)
+- [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert)
