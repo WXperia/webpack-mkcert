@@ -1,0 +1,28 @@
+name: test 
+on: # 触发条件
+  push: # 当git push 时触发
+      branches: ## 需要监听的分支
+        - test
+      paths: ## 改动文件夹下的目录
+        - '.github/workflows/**'
+        - '__test__/**'
+        - 'src/**'
+jobs: # 执行的任务
+    test: # 任务名， 不能重复
+        runs-on: ubuntu-lastest
+        steps:
+          - uses: actions/checkout@v2 # git pull 第三方的 actions
+          - name: Use Node.js # step的名称，可以不写
+            uses: actions/setup-node@v1  # 第三方actions,调用
+            with:
+                node-version: 14
+          - name: print node version
+            run: |
+                node -v
+                npm -v
+    test2: # 第二个任务
+        runs-on: ubuntu-latest
+        steps:
+            - run: touch a.text
+            - run: echo 100 > a.txt
+            - run: cat a.txt
